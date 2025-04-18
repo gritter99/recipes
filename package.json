@@ -1,0 +1,29 @@
+{
+  "name": "recipes",
+  "version": "1.0.0",
+  "description": "CRUD referente à API de receitas - Aprendizagem prática.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gritter99/recipes.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/gritter99/recipes/issues"
+  },
+  "homepage": "https://github.com/gritter99/recipes#readme",
+  "devDependencies": {
+    "ts-node": "^10.9.2",
+    "typescript": "^5.8.3"
+  },
+  "dependencies": {
+    "recipes": "file:",
+    "uuid": "^11.1.0"
+  }
+}
