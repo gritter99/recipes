@@ -1,10 +1,8 @@
-import { Ingredient } from "./domain/entity";
-import { IIngredientRepository } from "./domain/repository";
+import express from "express";
+import router from "./routes";
 
-export class UpdateIngredient {
-  constructor(private repo: IIngredientRepository) { }
+const app = express();
+app.use(express.json());
+app.use("/api", router);
 
-  async execute(ingredient: Ingredient) {
-    await this.repo.update(ingredient);
-  }
-}
+export default app;
