@@ -1,5 +1,5 @@
 import { CreateRecipe } from "../../usecases/recipe/create-recipe";
-import { Recipe } from "../../domain/entity";
+import { Recipe, RecipeIngredient } from "../../domain/entity";
 import { IRecipeRepository } from "../../domain/repository";
 import { v4 as uuidv4 } from "uuid";
 
@@ -18,8 +18,22 @@ describe('CreateRecipe Use Case', () => {
   test('should create a recipe successfully', async () => {
     const name = "Bolo de chocolate";
     const ingredients = [
-      { ingredientId: uuidv4(), quantity: 2 },
-      { ingredientId: uuidv4(), quantity: 3 },
+      {
+        "ingredient": {
+          "id": uuidv4(),
+          "name": "farinha",
+          "unit": "gramas"
+        },
+        "quantity": 500
+      },
+      {
+        "ingredient": {
+          "id": uuidv4(),
+          "name": "ovo",
+          "unit": "unidades"
+        },
+        "quantity": 1
+      }
     ];
     const preparation = "Misturar ingredientes e bater.";
 
@@ -35,8 +49,22 @@ describe('CreateRecipe Use Case', () => {
   test('should throw an error if no name is provided', async () => {
     const name = "";
     const ingredients = [
-      { ingredientId: uuidv4(), quantity: 2 },
-      { ingredientId: uuidv4(), quantity: 3 },
+      {
+        "ingredient": {
+          "id": uuidv4(),
+          "name": "farinha",
+          "unit": "gramas"
+        },
+        "quantity": 500
+      },
+      {
+        "ingredient": {
+          "id": uuidv4(),
+          "name": "ovo",
+          "unit": "unidades"
+        },
+        "quantity": 1
+      }
     ];
     const preparation = "Misturar ingredientes e bater.";
 
@@ -45,7 +73,7 @@ describe('CreateRecipe Use Case', () => {
 
   test('should throw an error if no ingredients are provided', async () => {
     const name = "Bolo de chocolate";
-    const ingredients: { ingredientId: string; quantity: number }[] = [];
+    const ingredients: RecipeIngredient[] = [];
     const preparation = "Misturar ingredientes e bater.";
 
     await expect(createRecipe.execute(name, ingredients, preparation)).rejects.toThrow("Ingredients are required.");

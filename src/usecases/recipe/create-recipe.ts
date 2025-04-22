@@ -7,7 +7,7 @@ export class CreateRecipe {
 
   async execute(
     name: string,
-    ingredients: { ingredientId: string; quantity: number }[],
+    ingredients: RecipeIngredient[],
     preparation: string
   ): Promise<Recipe> {
     if (!name || name.trim() === "") {
@@ -21,7 +21,7 @@ export class CreateRecipe {
     const items: RecipeIngredient[] = [];
     // Assume repository will hydrate Ingredient
     for (const i of ingredients) {
-      items.push({ ingredient: { id: i.ingredientId, name: "", unit: "" } as any, quantity: i.quantity });
+      items.push({ ingredient: { id: i.ingredient.id, name: i.ingredient.name, unit: i.ingredient.unit }, quantity: i.quantity });
     }
     const recipe = new Recipe(uuidv4(), name, items, preparation);
     await this.repo.create(recipe);
