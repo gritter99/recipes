@@ -25,7 +25,7 @@ Alternativamente, rode *npm run dev* para rodar em modo de desenvolvimento
 
 ## Estrutura do Projeto
 
-- src/          : Contém o código-fonte principal.
+- src/          : Contém o código-fonte principal organizado pela Clean Architecture.
 - src/__tests__/: Contém os testes unitários dos casos de uso
 
 ## Tecnologias Utilizadas
