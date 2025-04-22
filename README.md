@@ -21,6 +21,10 @@ CRUD referente à API de receitas - Aprendizagem prática.
 
 - npm start
 
+4. Testagem
+   
+- npm test
+
 Alternativamente, rode *npm run dev* para rodar em modo de desenvolvimento
 
 ## Estrutura do Projeto
