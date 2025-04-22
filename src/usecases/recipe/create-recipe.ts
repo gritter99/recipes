@@ -10,6 +10,14 @@ export class CreateRecipe {
     ingredients: { ingredientId: string; quantity: number }[],
     preparation: string
   ): Promise<Recipe> {
+    if (!name || name.trim() === "") {
+      throw new Error("Recipe name is required.");
+    }
+
+    if (!ingredients || ingredients.length === 0) {
+      throw new Error("Ingredients are required.");
+    }
+
     const items: RecipeIngredient[] = [];
     // Assume repository will hydrate Ingredient
     for (const i of ingredients) {
