@@ -1,0 +1,53 @@
+services:
+  postgres:
+    container_name: postgres
+    image: postgres:15
+    restart: always
+    environment:
+      POSTGRES_USER: gabriel
+      POSTGRES_PASSWORD: gabriel
+      POSTGRES_DB: recipes
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    networks:
+      - recipes-api-net
+
+  pgadmin:
+    container_name: pgadmin
+    image: dpage/pgadmin4:latest
+    restart: always
+    environment:
+      PGADMIN_DEFAULT_EMAIL: "gabriel.ritter99@gmail.com"
+      PGADMIN_DEFAULT_PASSWORD: "02468202"
+    volumes:
+      - pgadmin_data:/var/lib/pgadmin
+    ports:
+      - "4000:80"
+    depends_on:
+      - postgres
+    networks:
+      - recipes-api-net
+
+  recipes-api:
+    container_name: recipes-api
+    image: recipes-api:v1
+    restart: always
+    ports:
+      - "3000:3000"
+    volumes:
+      - recipes_instances:/evolution/instances
+    depends_on:
+      - postgres
+      - pgadmin
+    networks:
+      - recipes-api-net
+
+volumes:
+  recipes_instances:
+  postgres_data:
+  pgadmin_data:
+networks:
+  recipes-api-net:
+    driver: bridge

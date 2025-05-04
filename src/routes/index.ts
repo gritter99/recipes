@@ -20,4 +20,10 @@ router.get("/recipes/:id", RecipeController.get);
 router.put("/recipes/:id", RecipeController.update);
 router.delete("/recipes/:id", RecipeController.delete);
 
+
+// Health Check
+router.get("/health", (req, res) => {
+  res.status(200).json({ message: "OK" });
+});
+
 export default router;
