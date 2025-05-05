@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { InMemoryRecipeRepository } from "../infra/repositories/in-memory-recipes.repo";
+import { PostgresRecipeRepository } from "../infra/repositories/postgres-recipes.repo";
 import { CreateRecipe } from "../usecases/recipe/create-recipe";
 import { DeleteRecipe } from "../usecases/recipe/delete-recipe";
 import { GetRecipe } from "../usecases/recipe/get-recipe";
@@ -7,7 +7,7 @@ import { ListRecipes } from "../usecases/recipe/list-recipes";
 import { UpdateRecipe } from "../usecases/recipe/update-recipe";
 import { GetRecipeByName } from "../usecases/recipe/get-recipe-by-name";
 
-const repo = new InMemoryRecipeRepository();
+const repo = new PostgresRecipeRepository();
 export class RecipeController {
   static async create(req: Request, res: Response): Promise<any> {
     const usecase = new CreateRecipe(repo);

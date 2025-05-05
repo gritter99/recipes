@@ -1,13 +1,13 @@
 import { Request, Response } from "express";
 import { UpdateIngredient } from "../usecases/ingredient/update-ingredient";
-import { InMemoryIngredientRepository } from "../infra/repositories/in-memory-ingredients.repo";
+import { PostgresIngredientRepository } from "../infra/repositories/postgres-ingredients.repo";
 import { CreateIngredient } from "../usecases/ingredient/create-ingredient";
 import { DeleteIngredient } from "../usecases/ingredient/delete-ingredient";
 import { GetIngredient } from "../usecases/ingredient/get-ingredient";
 import { ListIngredients } from "../usecases/ingredient/list-ingredients";
 import { GetIngredientByName } from "../usecases/ingredient/get-ingredient-by-name";
 
-const repo = new InMemoryIngredientRepository();
+const repo = new PostgresIngredientRepository();
 export class IngredientController {
   static async create(req: Request, res: Response): Promise<any> {
     const usecase = new CreateIngredient(repo);
