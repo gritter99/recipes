@@ -37,10 +37,16 @@ services:
     ports:
       - "3000:3000"
     volumes:
-      - recipes_instances:/evolution/instances
+      - recipes_instances:/recipes/instances
     depends_on:
       - postgres
       - pgadmin
+    environment:
+      - PG_HOST=postgres
+      - PG_PORT=5432
+      - PG_USER=gabriel
+      - PG_PASSWORD=gabriel
+      - PG_DATABASE=recipes
     networks:
       - recipes-api-net
 
@@ -48,6 +54,7 @@ volumes:
   recipes_instances:
   postgres_data:
   pgadmin_data:
+
 networks:
   recipes-api-net:
     driver: bridge
