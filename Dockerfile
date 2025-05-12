@@ -1,9 +1,10 @@
 FROM node:slim AS builder
 WORKDIR /app
 COPY package*.json ./
-RUN npm install --production --ignore-scripts
+RUN npm install
 COPY . .
 RUN npm run build
+RUN npm prune --production
 
 FROM node:slim
 WORKDIR /app
