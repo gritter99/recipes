@@ -1,0 +1,47 @@
+name: CI Build & Deploy to Azure
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    env:
+      REGISTRY: recipesapiregistry.azurecr.io
+      IMAGE_NAME: recipes-api
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+
+      - name: Log in to ACR
+        uses: docker/login-action@v2
+        with:
+          registry: recipesapiregistry.azurecr.io
+          username: ${{ secrets.ACR_USERNAME }}
+          password: ${{ secrets.ACR_PASSWORD }}
+
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v4
+        with:
+          context: .
+          push: true
+          tags: |
+            recipesapiregistry.azurecr.io/recipes-api:latest
+            recipesapiregistry.azurecr.io/recipes-api:${{ github.sha }}
+
+      - name: 'Login via Azure CLI'
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      - name: Deploy to Azure Web App (Container)
+        uses: azure/webapps-deploy@v2
+        with:
+          app-name: recipes-api-app
+          images: recipesapiregistry.azurecr.io/recipes-api:latest
