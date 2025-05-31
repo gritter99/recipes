@@ -1,0 +1,10 @@
+pr:
+  - main
+
+jobs:
+  - job: Lint
+    pool:
+      vmImage: 'ubuntu-latest'
+    steps:
+      - checkout: self
+        fetchDepth: 0
