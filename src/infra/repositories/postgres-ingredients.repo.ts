@@ -1,6 +1,6 @@
 import { Pool } from 'pg';
-import { Ingredient } from "../../domain/entity";
-import { IIngredientRepository } from "../../domain/repository";
+import { Ingredient } from '../../domain/entity';
+import { IIngredientRepository } from '../../domain/repository';
 
 export class PostgresIngredientRepository implements IIngredientRepository {
   private pool: Pool;
@@ -13,12 +13,12 @@ export class PostgresIngredientRepository implements IIngredientRepository {
       password: process.env.PG_PASSWORD || '',
       database: process.env.PG_DATABASE || 'mydb',
       ssl: {
-        rejectUnauthorized: false
-      }
+        rejectUnauthorized: false,
+      },
     });
   }
 
-  async create(ingredient: Ingredient): Promise<void> {
+  public async create(ingredient: Ingredient): Promise<void> {
     const query = `
       INSERT INTO ingredients (id, name, unit)
       VALUES ($1, $2, $3)
@@ -27,28 +27,28 @@ export class PostgresIngredientRepository implements IIngredientRepository {
     await this.pool.query(query, values);
   }
 
-  async findById(id: string): Promise<Ingredient | null> {
+  public async findById(id: string): Promise<Ingredient | null> {
     const query = `
       SELECT id, name, unit
       FROM ingredients
       WHERE id = $1
     `;
     const { rows } = await this.pool.query(query, [id]);
-    if (rows.length === 0) return null;
+    if (rows.length === 0) { return null; }
     const { name, unit } = rows[0];
     return new Ingredient(id, name, unit);
   }
 
-  async findAll(): Promise<Ingredient[]> {
+  public async findAll(): Promise<Ingredient[]> {
     const query = `
       SELECT id, name, unit
       FROM ingredients
     `;
     const { rows } = await this.pool.query(query);
-    return rows.map(r => new Ingredient(r.id, r.name, r.unit));
+    return rows.map((r) => new Ingredient(r.id, r.name, r.unit));
   }
 
-  async update(ingredient: Ingredient): Promise<void> {
+  public async update(ingredient: Ingredient): Promise<void> {
     const query = `
       UPDATE ingredients
       SET name = $2,
@@ -59,7 +59,7 @@ export class PostgresIngredientRepository implements IIngredientRepository {
     await this.pool.query(query, values);
   }
 
-  async delete(id: string): Promise<void> {
+  public async delete(id: string): Promise<void> {
     const query = `
       DELETE FROM ingredients
       WHERE id = $1
@@ -67,7 +67,7 @@ export class PostgresIngredientRepository implements IIngredientRepository {
     await this.pool.query(query, [id]);
   }
 
-  async findByName(name: string): Promise<Ingredient | null> {
+  public async findByName(name: string): Promise<Ingredient | null> {
     const query = `
       SELECT id, name, unit
       FROM ingredients
@@ -75,12 +75,12 @@ export class PostgresIngredientRepository implements IIngredientRepository {
       LIMIT 1
     `;
     const { rows } = await this.pool.query(query, [name]);
-    if (rows.length === 0) return null;
+    if (rows.length === 0) { return null; }
     const { id, name: nm, unit } = rows[0];
     return new Ingredient(id, nm, unit);
   }
 
-  async dispose(): Promise<void> {
+  public async dispose(): Promise<void> {
     await this.pool.end();
   }
 }

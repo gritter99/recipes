@@ -2,7 +2,7 @@ export class Ingredient {
   constructor(
     public readonly id: string,
     public name: string,
-    public unit: string
+    public unit: string,
   ) { }
 }
 
@@ -16,7 +16,6 @@ export class Recipe {
     public readonly id: string,
     public name: string,
     public ingredients: RecipeIngredient[],
-    public preparation: string
+    public preparation: string,
   ) { }
 }
-

@@ -1,7 +1,7 @@
-import { UpdateIngredient } from "../../usecases/ingredient/update-ingredient";
-import { Ingredient } from "../../domain/entity";
-import { IIngredientRepository } from "../../domain/repository";
-import { v4 as uuidv4 } from "uuid";
+import { v4 as uuidv4 } from 'uuid';
+import { Ingredient } from '../../domain/entity';
+import { IIngredientRepository } from '../../domain/repository';
+import { UpdateIngredient } from '../../usecases/ingredient/update-ingredient';
 
 describe('UpdateIngredient Use Case', () => {
   let mockRepo: IIngredientRepository;
@@ -18,14 +18,14 @@ describe('UpdateIngredient Use Case', () => {
 
   test('should update an ingredient successfully', async () => {
     const ingredientId = uuidv4();
-    const name = "Farinha";
-    const unit = "gramas";
+    const name = 'Farinha';
+    const unit = 'gramas';
 
     const existingIngredient = new Ingredient(ingredientId, name, unit);
     (mockRepo.findById as jest.Mock).mockResolvedValue(existingIngredient);
 
-    const updatedName = "Açúcar";
-    const updatedUnit = "colheres";
+    const updatedName = 'Açúcar';
+    const updatedUnit = 'colheres';
     const updatedIngredient = await updateIngredient.execute(new Ingredient(ingredientId, updatedName, updatedUnit));
 
     expect(updatedIngredient).toBeInstanceOf(Ingredient);
@@ -37,8 +37,8 @@ describe('UpdateIngredient Use Case', () => {
 
   test('should throw an error if the ingredient does not exist', async () => {
     const ingredientId = uuidv4();
-    const name = "Farinha";
-    const unit = "gramas";
+    const name = 'Farinha';
+    const unit = 'gramas';
 
     (mockRepo.findById as jest.Mock).mockResolvedValue(null);
 

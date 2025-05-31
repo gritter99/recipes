@@ -1,7 +1,7 @@
-import { ListIngredients } from "../../usecases/ingredient/list-ingredients";
-import { Ingredient } from "../../domain/entity";
-import { IIngredientRepository } from "../../domain/repository";
-import { v4 as uuidv4 } from "uuid";
+import { v4 as uuidv4 } from 'uuid';
+import { Ingredient } from '../../domain/entity';
+import { IIngredientRepository } from '../../domain/repository';
+import { ListIngredients } from '../../usecases/ingredient/list-ingredients';
 
 describe('ListIngredients Use Case', () => {
   let mockRepo: IIngredientRepository;
@@ -16,8 +16,8 @@ describe('ListIngredients Use Case', () => {
   });
 
   test('should retrieve all ingredients successfully', async () => {
-    const ingredient1 = new Ingredient(uuidv4(), "Farinha", "gramas");
-    const ingredient2 = new Ingredient(uuidv4(), "Açúcar", "gramas");
+    const ingredient1 = new Ingredient(uuidv4(), 'Farinha', 'gramas');
+    const ingredient2 = new Ingredient(uuidv4(), 'Açúcar', 'gramas');
     (mockRepo.findAll as jest.Mock).mockResolvedValue([ingredient1, ingredient2]);
 
     const result = await listIngredients.execute();
@@ -26,8 +26,8 @@ describe('ListIngredients Use Case', () => {
     expect(result).toHaveLength(2);
     expect(result[0]).toBeInstanceOf(Ingredient);
     expect(result[1]).toBeInstanceOf(Ingredient);
-    expect(result[0].name).toBe("Farinha");
-    expect(result[1].name).toBe("Açúcar");
+    expect(result[0].name).toBe('Farinha');
+    expect(result[1].name).toBe('Açúcar');
     expect(mockRepo.findAll).toHaveBeenCalled();
   });
 });

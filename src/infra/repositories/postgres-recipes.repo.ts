@@ -1,6 +1,6 @@
 import { Pool, PoolClient } from 'pg';
-import { Recipe, RecipeIngredient, Ingredient } from "../../domain/entity";
-import { IRecipeRepository } from "../../domain/repository";
+import { Ingredient, Recipe, RecipeIngredient } from '../../domain/entity';
+import { IRecipeRepository } from '../../domain/repository';
 
 export class PostgresRecipeRepository implements IRecipeRepository {
   private pool: Pool;
@@ -13,46 +13,31 @@ export class PostgresRecipeRepository implements IRecipeRepository {
       password: process.env.PG_PASSWORD || '',
       database: process.env.PG_DATABASE || 'mydb',
       ssl: {
-        rejectUnauthorized: false
-      }
+        rejectUnauthorized: false,
+      },
     });
   }
 
-  private async withTransaction<T>(fn: (client: PoolClient) => Promise<T>): Promise<T> {
-    const client = await this.pool.connect();
-    try {
-      await client.query('BEGIN');
-      const result = await fn(client);
-      await client.query('COMMIT');
-      return result;
-    } catch (err) {
-      await client.query('ROLLBACK');
-      throw err;
-    } finally {
-      client.release();
-    }
-  }
-
-  async create(recipe: Recipe): Promise<void> {
-    console.log("Iniciando criação da receita...");
-    console.log("Receita recebida:", {
+  public async create(recipe: Recipe): Promise<void> {
+    console.log('Iniciando criação da receita...');
+    console.log('Receita recebida:', {
       id: recipe.id,
       name: recipe.name,
       preparation: recipe.preparation,
-      ingredients: recipe.ingredients.map(i => ({
+      ingredients: recipe.ingredients.map((i) => ({
         ingredientId: i.ingredient.id,
         name: i.ingredient.name,
         unit: i.ingredient.unit,
-        quantity: i.quantity
-      }))
+        quantity: i.quantity,
+      })),
     });
 
-    await this.withTransaction(async client => {
+    await this.withTransaction(async (client) => {
       const insertRecipe = `
         INSERT INTO recipes (id, name, preparation)
         VALUES ($1, $2, $3)
       `;
-      console.log("Inserindo receita na tabela 'recipes'...");
+      console.log('Inserindo receita na tabela \'recipes\'...');
       await client.query(insertRecipe, [recipe.id, recipe.name, recipe.preparation]);
 
       const insertLink = `
@@ -72,11 +57,10 @@ export class PostgresRecipeRepository implements IRecipeRepository {
     console.log(`✅ Receita '${recipe.name}' criada com sucesso (ID: ${recipe.id})`);
   }
 
-
-  async findById(id: string): Promise<Recipe | null> {
+  public async findById(id: string): Promise<Recipe | null> {
     const recQ = `SELECT id, name, preparation FROM recipes WHERE id = $1`;
     const { rows: recRows } = await this.pool.query(recQ, [id]);
-    if (recRows.length === 0) return null;
+    if (recRows.length === 0) { return null; }
     const { name, preparation } = recRows[0];
 
     const ingQ = `
@@ -87,7 +71,7 @@ export class PostgresRecipeRepository implements IRecipeRepository {
     `;
     const { rows: ingRows } = await this.pool.query(ingQ, [id]);
 
-    const ingredients: RecipeIngredient[] = ingRows.map(r => ({
+    const ingredients: RecipeIngredient[] = ingRows.map((r) => ({
       ingredient: new Ingredient(r.ingr_id, r.ingr_name, r.ingr_unit),
       quantity: r.quantity,
     }));
@@ -95,7 +79,7 @@ export class PostgresRecipeRepository implements IRecipeRepository {
     return new Recipe(id, name, ingredients, preparation);
   }
 
-  async findAll(): Promise<Recipe[]> {
+  public async findAll(): Promise<Recipe[]> {
     const recQ = `SELECT id, name, preparation FROM recipes`;
     const { rows } = await this.pool.query(recQ);
     const recipes: Recipe[] = [];
@@ -108,7 +92,7 @@ export class PostgresRecipeRepository implements IRecipeRepository {
         WHERE ri.recipe_id = $1
       `;
       const { rows: ingRows } = await this.pool.query(ingQ, [row.id]);
-      const ingredients: RecipeIngredient[] = ingRows.map(r => ({
+      const ingredients: RecipeIngredient[] = ingRows.map((r) => ({
         ingredient: new Ingredient(r.ingr_id, r.ingr_name, r.ingr_unit),
         quantity: r.quantity,
       }));
@@ -119,8 +103,8 @@ export class PostgresRecipeRepository implements IRecipeRepository {
     return recipes;
   }
 
-  async update(recipe: Recipe): Promise<void> {
-    await this.withTransaction(async client => {
+  public async update(recipe: Recipe): Promise<void> {
+    await this.withTransaction(async (client) => {
       const updRec = `
         UPDATE recipes SET name = $2, preparation = $3 WHERE id = $1
       `;
@@ -137,21 +121,36 @@ export class PostgresRecipeRepository implements IRecipeRepository {
     });
   }
 
-  async delete(id: string): Promise<void> {
-    await this.withTransaction(async client => {
+  public async delete(id: string): Promise<void> {
+    await this.withTransaction(async (client) => {
       await client.query(`DELETE FROM recipe_ingredients WHERE recipe_id = $1`, [id]);
       await client.query(`DELETE FROM recipes WHERE id = $1`, [id]);
     });
   }
 
-  async findByName(name: string): Promise<Recipe | null> {
+  public async findByName(name: string): Promise<Recipe | null> {
     const recQ = `SELECT id, name, preparation FROM recipes WHERE LOWER(name) = LOWER($1) LIMIT 1`;
     const { rows } = await this.pool.query(recQ, [name]);
-    if (rows.length === 0) return null;
+    if (rows.length === 0) { return null; }
     return this.findById(rows[0].id);
   }
 
-  async dispose(): Promise<void> {
+  public async dispose(): Promise<void> {
     await this.pool.end();
+  }
+
+  private async withTransaction<T>(fn: (client: PoolClient) => Promise<T>): Promise<T> {
+    const client = await this.pool.connect();
+    try {
+      await client.query('BEGIN');
+      const result = await fn(client);
+      await client.query('COMMIT');
+      return result;
+    } catch (err) {
+      await client.query('ROLLBACK');
+      throw err;
+    } finally {
+      client.release();
+    }
   }
 }

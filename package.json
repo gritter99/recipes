@@ -7,7 +7,9 @@
     "test": "npx jest",
     "start": "node dist/server.js",
     "build": "tsc",
-    "dev": "ts-node-dev --respawn --transpile-only src/server.ts"
+    "dev": "ts-node-dev --respawn --transpile-only src/server.ts",
+    "lint": "tslint -p tsconfig.json",
+    "lint:fix": "tslint -p tsconfig.json --fix"
   },
   "repository": {
     "type": "git",
@@ -35,6 +37,7 @@
     "express": "^5.1.0",
     "pg": "^8.15.6",
     "recipes": "file:",
+    "tslint": "^5.20.1",
     "uuid": "^11.1.0"
   }
 }

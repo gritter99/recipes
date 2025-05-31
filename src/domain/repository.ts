@@ -1,4 +1,4 @@
-import { Ingredient, Recipe } from "./entity";
+import { Ingredient, Recipe } from './entity';
 
 export interface IIngredientRepository {
   create(ingredient: Ingredient): Promise<void>;
@@ -8,7 +8,6 @@ export interface IIngredientRepository {
   delete(id: string): Promise<void>;
   findByName(name: string): Promise<Ingredient | null>;
 }
-
 
 export interface IRecipeRepository {
   create(recipe: Recipe): Promise<void>;

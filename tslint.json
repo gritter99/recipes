@@ -1,0 +1,39 @@
+{
+  "extends": [
+    "tslint:recommended"
+  ],
+  "rules": {
+    "curly": true,
+    "indent": [
+      true,
+      "spaces",
+      2
+    ],
+    "no-debugger": true,
+    "no-duplicate-variable": true,
+    "no-shadowed-variable": true,
+    "no-unused-expression": true,
+    "quotemark": [
+      true,
+      "single"
+    ],
+    "semicolon": [
+      true,
+      "always"
+    ],
+    "trailing-comma": [
+      true,
+      {
+        "multiline": "always",
+        "singleline": "never"
+      }
+    ],
+    "variable-name": [
+      true,
+      "ban-keywords",
+      "check-format",
+      "allow-pascal-case"
+    ]
+  },
+  "rulesDirectory": []
+}

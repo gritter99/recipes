@@ -1,21 +1,21 @@
-import { Recipe, RecipeIngredient } from "../../domain/entity";
-import { IRecipeRepository } from "../../domain/repository";
-import { v4 as uuidv4 } from "uuid";
+import { v4 as uuidv4 } from 'uuid';
+import { Recipe, RecipeIngredient } from '../../domain/entity';
+import { IRecipeRepository } from '../../domain/repository';
 
 export class CreateRecipe {
   constructor(private repo: IRecipeRepository) { }
 
-  async execute(
+  public async execute(
     name: string,
     ingredients: RecipeIngredient[],
-    preparation: string
+    preparation: string,
   ): Promise<Recipe> {
-    if (!name || name.trim() === "") {
-      throw new Error("Recipe name is required.");
+    if (!name || name.trim() === '') {
+      throw new Error('Recipe name is required.');
     }
 
     if (!ingredients || ingredients.length === 0) {
-      throw new Error("Ingredients are required.");
+      throw new Error('Ingredients are required.');
     }
 
     const items: RecipeIngredient[] = [];

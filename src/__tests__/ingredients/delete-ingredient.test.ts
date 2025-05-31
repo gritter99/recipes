@@ -1,7 +1,7 @@
-import { DeleteIngredient } from "../../usecases/ingredient/delete-ingredient";
-import { Ingredient } from "../../domain/entity";
-import { IIngredientRepository } from "../../domain/repository";
-import { v4 as uuidv4 } from "uuid";
+import { v4 as uuidv4 } from 'uuid';
+import { Ingredient } from '../../domain/entity';
+import { IIngredientRepository } from '../../domain/repository';
+import { DeleteIngredient } from '../../usecases/ingredient/delete-ingredient';
 
 describe('DeleteIngredient Use Case', () => {
   let mockRepo: IIngredientRepository;
@@ -18,8 +18,8 @@ describe('DeleteIngredient Use Case', () => {
 
   test('should delete an ingredient successfully', async () => {
     const ingredientId = uuidv4();
-    const name = "Farinha";
-    const unit = "gramas";
+    const name = 'Farinha';
+    const unit = 'gramas';
 
     const existingIngredient = new Ingredient(ingredientId, name, unit);
     (mockRepo.findById as jest.Mock).mockResolvedValue(existingIngredient);
