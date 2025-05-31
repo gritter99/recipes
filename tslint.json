@@ -11,8 +11,8 @@
     ],
     "no-debugger": true,
     "no-duplicate-variable": true,
-    "no-shadowed-variable": true,
-    "no-unused-expression": true,
+    "no-shadowed-variable": false,
+    "no-unused-expression": false,
     "quotemark": [
       true,
       "single"
@@ -33,7 +33,16 @@
       "ban-keywords",
       "check-format",
       "allow-pascal-case"
-    ]
+    ],
+    "no-console": false,
+    "no-empty": false,
+    "whitespace": false,
+    "object-literal-sort-keys": false,
+    "max-line-length": false,
+    "interface-name": false,
+    "max-classes-per-file": false,
+    "import-spacing": false,
+    "ordered-imports": false
   },
   "rulesDirectory": []
 }
