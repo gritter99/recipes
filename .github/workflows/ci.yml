@@ -44,4 +44,4 @@ jobs:
         uses: azure/webapps-deploy@v2
         with:
           app-name: recipes-api-app
-          images: recipesapiregistry.azurecr.io/recipes-api:latest
+          images: recipesapiregistry.azurecr.io/recipes-api:${{ github.sha }}
