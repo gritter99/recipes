@@ -52,8 +52,7 @@ jobs:
           context: .
           push: true
           tags: |
-            recipesapiregistry.azurecr.io/recipes-api:latest
-            recipesapiregistry.azurecr.io/recipes-api:${{ github.sha }}
+            recipesapiregistry.azurecr.io/recipes-api:${{ steps.set-tag.outputs.tag }}
 
       - name: 'Login via Azure CLI'
         uses: azure/login@v1
@@ -64,4 +63,4 @@ jobs:
         uses: azure/webapps-deploy@v2
         with:
           app-name: recipes-api-app
-          images: recipesapiregistry.azurecr.io/recipes-api:${{ github.sha }}
+          images: recipesapiregistry.azurecr.io/recipes-api:${{ steps.set-tag.outputs.tag }}
