@@ -10,6 +10,6 @@ FROM node:slim
 WORKDIR /app
 COPY --from=builder /app/node_modules ./node_modules
 COPY --from=builder /app/dist ./dist
-EXPOSE 3000
+EXPOSE 3007
 USER node
 CMD ["node", "dist/server.js"]

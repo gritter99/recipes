@@ -35,13 +35,14 @@ services:
     image: recipes-api:v1
     restart: always
     ports:
-      - "3000:3000"
+      - "3007:3007"
     volumes:
       - recipes_instances:/recipes/instances
     depends_on:
       - postgres
       - pgadmin
     environment:
+      - PORT=3007
       - PG_HOST=postgres
       - PG_PORT=5432
       - PG_USER=gabriel

@@ -12,9 +12,9 @@ export class PostgresRecipeRepository implements IRecipeRepository {
       user: process.env.PG_USER || 'postgres',
       password: process.env.PG_PASSWORD || '',
       database: process.env.PG_DATABASE || 'mydb',
-      ssl: {
-        rejectUnauthorized: false
-      }
+      // ssl: {
+      //   rejectUnauthorized: false
+      // }
     });
   }
 
