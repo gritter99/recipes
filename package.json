@@ -30,6 +30,12 @@
     "typescript": "^5.8.3"
   },
   "dependencies": {
+    "@opentelemetry/api": "^1.9.0",
+    "@opentelemetry/exporter-trace-otlp-grpc": "^0.202.0",
+    "@opentelemetry/instrumentation-express": "^0.51.0",
+    "@opentelemetry/instrumentation-http": "^0.202.0",
+    "@opentelemetry/instrumentation-pg": "^0.54.0",
+    "@opentelemetry/sdk-node": "^0.202.0",
     "@types/express": "^5.0.1",
     "@types/pg": "^8.11.14",
     "express": "^5.1.0",

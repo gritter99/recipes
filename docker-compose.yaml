@@ -50,6 +50,7 @@ services:
       - PG_DATABASE=recipes
     networks:
       - recipes-api-net
+      - monitoring-net
 
 volumes:
   recipes_instances:
@@ -59,3 +60,5 @@ volumes:
 networks:
   recipes-api-net:
     driver: bridge
+  monitoring-net:
+    external: true

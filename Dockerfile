@@ -11,5 +11,7 @@ WORKDIR /app
 COPY --from=builder /app/node_modules ./node_modules
 COPY --from=builder /app/dist ./dist
 EXPOSE 3007
+USER root
+RUN chown -R node:node /app
 USER node
-CMD ["node", "dist/server.js"]
+CMD ["node", "-r", "./dist/tracing.js", "dist/server.js"]
